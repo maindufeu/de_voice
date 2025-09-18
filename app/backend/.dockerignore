@@ -1,0 +1,18 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment files
+.env
+.env.example
+
+# Markdown files
+*.md
+
+# Specific data folders
+app/services/DataAnalysisFlow/data/danone
+app/services/DataAnalysisFlow/data/danone2
+app/services/DataAnalysisFlow/data/danone3
+app/services/DataAnalysisFlow/data/danone4
+app/services/DataAnalysisFlow/data/sanfer

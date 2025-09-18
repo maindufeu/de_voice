@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./app/docker/backend.dockerfile
+    image: llm-streaming-api
+    container_name: llm-streaming-api
+    ports:
+      - "8888:8000"
+    volumes:
+      - ./app/backend/app:/app
+    env_file:
+      - ./app/backend/.env
+    restart: unless-stopped
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/status"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 15s
+    networks:
+      - llm-api-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./app/docker/frontend.dockerfile
+    container_name: llm-streaming-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./app/ui:/app/frontend
+      - /app/frontend/node_modules
+    depends_on:
+      - api
+    networks:
+      - llm-api-network
+
+volumes:
+  node_modules:
+
+networks:
+  llm-api-network:
+    driver: bridge
